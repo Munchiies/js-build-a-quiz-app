@@ -13,10 +13,32 @@
 
 window.addEventListener("DOMContentLoaded", () => {
   const start = document.querySelector("#start");
+ 
+  
+  
   start.addEventListener("click", function (e) {
     document.querySelector("#quizBlock").style.display = "block";
     start.style.display = "none";
+    timer();
   });
+
+  //timer
+  const timer= () => {
+  
+    let countdown = setInterval(()=>{    
+      if (submitted){
+        timeElement.innerHTML= "You have submitted your answers ontime."
+      }   
+      else if (remainingTime>0){
+        remainingTime--;
+        timeElement.innerHTML=`00:${remainingTime}`
+      }else{
+        timeElement.innerHTML= "Your time is up."
+        calculateScore();
+      }
+    },1000);
+    }
+  
   // quizArray QUESTIONS & ANSWERS
   // q = QUESTION, o = OPTIONS, a = CORRECT ANSWER
   // Basic ideas from https://code-boxx.com/simple-javascript-quiz/
@@ -35,6 +57,16 @@ window.addEventListener("DOMContentLoaded", () => {
       q: "What is the capital of Australia",
       o: ["Sydney", "Canberra", "Melbourne", "Perth"],
       a: 1,
+    },
+    {
+      q: "Who is the current Prime Minister of Australia?",
+      o: ["Malcolm Turnbull", "John Howard", "Scott Morrison", "Julia Gillard"],
+      a: 2,
+    },
+    {
+      q: "Where was the Olympics held in 2021?",
+      o: ["Australia", "Brazil", "Canada", "Japan"],
+      a: 3,
     },
   ];
 
@@ -66,17 +98,43 @@ window.addEventListener("DOMContentLoaded", () => {
         liElement = document.querySelector("#" + li);
         radioElement = document.querySelector("#" + r);
 
+
         if (quizItem.a == i) {
           //change background color of li element here
+          liElement.style.backgroundColor = "#1AB932";
+          liElement.style.color = "white";
+          liElement.style.fontWeight = "bold";
         }
 
         if (radioElement.checked) {
-          // code for task 1 goes here
+          if(quizItem.a == i){
+            score += 1;
+          }  else {
+            liElement.style.backgroundColor = "#AB1111";
+            liElement.style.color = "white";
+            liElement.style.fontWeight = "bold";
+          }
         }
-      }
-    });
-  };
+    } 
+  });
+
+   //score
+      const submitScore = document.getElementById('score');
+      submitScore.innerHTML = `Your score is: ${score}`;
+      };
+
+
 
   // call the displayQuiz function
   displayQuiz();
+
+  //submit button
+  const submitButton = document.querySelector("#btnSubmit");
+	submitButton.addEventListener("click", calculateScore);
+      // reset when reset button clicked
+  const resetButton = document.querySelector("#btnReset");
+  resetButton.addEventListener("click", () => {
+		window.location.reload();
+
+  });
 });
