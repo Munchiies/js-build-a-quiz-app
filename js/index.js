@@ -13,32 +13,12 @@
 
 window.addEventListener("DOMContentLoaded", () => {
   const start = document.querySelector("#start");
- 
-  
   
   start.addEventListener("click", function (e) {
     document.querySelector("#quizBlock").style.display = "block";
     start.style.display = "none";
-    timer();
   });
 
-  //timer
-  const timer= () => {
-  
-    let countdown = setInterval(()=>{    
-      if (submitted){
-        timeElement.innerHTML= "You have submitted your answers ontime."
-      }   
-      else if (remainingTime>0){
-        remainingTime--;
-        timeElement.innerHTML=`00:${remainingTime}`
-      }else{
-        timeElement.innerHTML= "Your time is up."
-        calculateScore();
-      }
-    },1000);
-    }
-  
   // quizArray QUESTIONS & ANSWERS
   // q = QUESTION, o = OPTIONS, a = CORRECT ANSWER
   // Basic ideas from https://code-boxx.com/simple-javascript-quiz/
